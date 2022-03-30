@@ -1,9 +1,11 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
+
 const connection = require('../../../models/connection');
+const productsModels = require('../../../models/productsModels');
 
 describe('Teste da camada Model dos products', () => {
-  const fakeBd =   [
+  const fakeBd = [
     {
       "id": 1,
       "name": "produto A",
@@ -18,17 +20,18 @@ describe('Teste da camada Model dos products', () => {
 
   describe('Teste da função getAll', () => {
     before(() => {
-      sinon.stub(connection, 'execute').resolve(fakeBd);
+      sinon.stub(connection, 'execute').resolves(fakeBd);
     });
 
     after(() => {
       connection.execute.restore();
     });
 
-    it('getAll retorna todos os produtos do Bd', () => {
-      const result = await productsModel.getAll();
+    it('getAll retorna todos os produtos do Bd', async () => {
+      const result = await productsModels.getAll();
+      console.log('teste', result);
 
-      expect(result).to.be.equal(fakeBd);
+      expect(result).to.be.equals(fakeBd);
     });
   });
 });
