@@ -20,7 +20,7 @@ describe('Teste da camada Model dos products', () => {
 
   describe('Teste da função getAll', () => {
     before(() => {
-      sinon.stub(connection, 'execute').resolves(fakeBd);
+      sinon.stub(connection, 'execute').resolves([fakeBd]);
     });
 
     after(() => {
@@ -29,9 +29,24 @@ describe('Teste da camada Model dos products', () => {
 
     it('getAll retorna todos os produtos do Bd', async () => {
       const result = await productsModels.getAll();
-      console.log('teste', result);
 
       expect(result).to.be.equals(fakeBd);
+    });
+  });
+
+  describe('Teste da função getById', () => {
+    before(() => {
+      sinon.stub(connection, 'execute').resolves([fakeBd]);
+    });
+
+    after(() => {
+      connection.execute.restore();
+    });
+
+    it('getById retorna somente o produto com o id informado', async () => {
+      const result = await productsModels.getById(1);
+
+      expect(result).to.be.an('array');
     });
   });
 });
