@@ -6,7 +6,7 @@ const getAll = async (_req, res) => {
     return res.status(200).json(sales);
   } catch (e) {
     console.log(e);
-    return res.status(580).json({ message: 'Erro no servidor' });
+    return res.status(500).json({ message: 'Erro no servidor' });
   }
 };
 
@@ -18,7 +18,7 @@ const getById = async (req, res) => {
     return res.status(200).json(sale);
   } catch (e) {
     console.log(e);
-    return res.status(580).json({ message: 'Erro no servidor' });
+    return res.status(500).json({ message: 'Erro no servidor' });
   }
 };
 module.exports = {

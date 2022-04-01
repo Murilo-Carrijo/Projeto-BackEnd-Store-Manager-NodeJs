@@ -31,7 +31,6 @@ const update = async (id, { name, quantity }) => {
 
 const exclude = async (id) => {
   const checkProductId = await productsModels.getById(id);
-  console.log(checkProductId);
   if (checkProductId.length === 0) return null;
   const excludeProduct = await productsModels.exclude(id);
   return excludeProduct;

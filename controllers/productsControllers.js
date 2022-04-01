@@ -19,7 +19,7 @@ const getById = async (req, res) => {
     return res.status(200).json(products);
   } catch (e) {
     console.log(e);
-    return res.status(580).json({ message: msgerror500 });
+    return res.status(500).json({ message: msgerror500 });
   }
 };
 
@@ -31,7 +31,7 @@ const add = async (req, res) => {
     return res.status(201).json(product);
   } catch (e) {
     console.log(e);
-    return res.status(580).json({ message: msgerror500 });
+    return res.status(500).json({ message: msgerror500 });
   }
 };
 
@@ -44,7 +44,7 @@ const update = async (req, res) => {
     return res.status(200).json(product);
   } catch (e) {
     console.log(e);
-    return res.status(580).json({ message: msgerror500 });
+    return res.status(500).json({ message: msgerror500 });
   }
 };
 
@@ -56,7 +56,7 @@ const exclude = async (req, res) => {
     return res.status(204).end();
   } catch (e) {
     console.log(e);
-    return res.status(580).json({ message: msgerror500 });
+    return res.status(500).json({ message: msgerror500 });
   }
 };
 
