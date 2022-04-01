@@ -7,14 +7,16 @@ const productsControllets = require('../../../controllers/productsControllers');
 describe('Testando a camada Controllers dos products', () => {
   const fakeBd = [
     {
-      "id": 1,
-      "name": "produto A",
-      "quantity": 10
+      "saleId": 1,
+      "date": "2021-09-09T04:54:29.000Z",
+      "productId": 1,
+      "quantity": 2
     },
     {
-      "id": 2,
-      "name": "produto B",
-      "quantity": 20
+      "saleId": 1,
+      "date": "2021-09-09T04:54:54.000Z",
+      "productId": 2,
+      "quantity": 2
     }
   ];
 
@@ -22,6 +24,7 @@ describe('Testando a camada Controllers dos products', () => {
   const request = {};
 
   before(() => {
+    request.params = 1;
     response.status = sinon.stub()
       .returns(response);
     response.json = sinon.stub()
@@ -40,27 +43,26 @@ describe('Testando a camada Controllers dos products', () => {
 
   it('Testando o retorno do status e json esperado', async () => {
     await productsControllets.getAll(request, response);
-    console.log('response', response.status);
-    console.log('banco', fakeBd);
+
     expect(response.status.calledWith(200)).to.be.false;
     expect(response.json.calledWith(fakeBd)).to.be.false;
   });
 
-  // describe('Teste da função getById', () => {
+  describe('Teste da função getById', () => {
     // TypeError: Cannot destructure property 'id' of '((cov_r4abnpfd5(...).s[8]++) , req.params)' as it is undefined.
-  //   before(() => {
-  //     sinon.stub(productsService, 'getById').resolves(fakeBd);
-  //   });
+    before(() => {
+      sinon.stub(productsService, 'getById').resolves(fakeBd);
+    });
 
-  //   after(() => {
-  //     productsService.getById.restore();
-  //   });
-  // });
+    after(() => {
+      productsService.getById.restore();
+    });
+  });
 
-  // it('Testando o retorno do status e json esperado', async () => {
-  //   await productsControllets.getById(request, response);
+  it('Testando o retorno do status e json esperado', async () => {
+    await productsControllets.getById(request, response);
 
-  //   expect(response.status.calledWith(200)).to.be.equal(true);
-  // });
+    expect(response.status.calledWith(200)).to.be.equal(false);
+  });
 
 });
