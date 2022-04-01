@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const salesModules = require('../../../services/salesServices');
 const salesControllers = require('../../../controllers/salesControllers');
 
-describe('Testando a camada Controllers dos products', () => {
+describe('Testando a camada Controllers dos sales', () => {
   const fakeBd = [
     {
         "saleId": 1,
@@ -45,14 +45,14 @@ describe('Testando a camada Controllers dos products', () => {
     after(() => {
       salesModules.getAll.restore();
     });
+    it('Testando o retorno do status e json esperado', async () => {
+      await salesControllers.getAll(request, response);
+
+      expect(response.status.calledWith(200)).to.be.true;
+      expect(response.json.calledWith(fakeBd)).to.be.true;
+    });
   });
 
-  it('Testando o retorno do status e json esperado', async () => {
-    await salesControllers.getAll(request, response);
-
-    expect(response.status.calledWith(200)).to.be.false;
-    expect(response.json.calledWith(fakeBd)).to.be.false;
-  });
 
   describe('Teste da função getById', () => {
     before(() => {
@@ -61,14 +61,14 @@ describe('Testando a camada Controllers dos products', () => {
 
     after(() => {
       salesModules.getById.restore();
+
+        it('Testando o retorno do status e json esperado', async () => {
+          await salesControllers.getById(request, response);
+
+          expect(response.status.calledWith(200)).to.be.true;
+          expect(response.json.calledWith(fakeBd)).to.be.true;
+        });
     });
-  });
-
-  it('Testando o retorno do status e json esperado', async () => {
-    await salesControllers.getById(request, response);
-
-    expect(response.status.calledWith(200)).to.be.equal(false);
-    expect(response.json.calledWith(fakeBd)).to.be.equal(false);
   });
 
 });

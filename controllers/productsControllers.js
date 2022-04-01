@@ -1,3 +1,4 @@
+const msgerror500 = 'Erro no servidor';
 const productsService = require('../services/productsServices');
 
 const getAll = async (_req, res) => {
@@ -6,7 +7,7 @@ const getAll = async (_req, res) => {
     return res.status(200).json(products);
   } catch (e) {
     console.log(e);
-    return res.status(580).json({ message: 'Erro no servidor' });
+    return res.status(500).json({ message: 'Erro no servidor' });
   }
 };
 
@@ -18,7 +19,7 @@ const getById = async (req, res) => {
     return res.status(200).json(products);
   } catch (e) {
     console.log(e);
-    return res.status(580).json({ message: 'Erro no servidor' });
+    return res.status(580).json({ message: msgerror500 });
   }
 };
 
@@ -30,7 +31,7 @@ const add = async (req, res) => {
     return res.status(201).json(product);
   } catch (e) {
     console.log(e);
-    return res.status(580).json({ message: 'Erro no servidor' });
+    return res.status(580).json({ message: msgerror500 });
   }
 };
 
@@ -43,7 +44,19 @@ const update = async (req, res) => {
     return res.status(200).json(product);
   } catch (e) {
     console.log(e);
-    return res.status(580).json({ message: 'Erro no servidor' });
+    return res.status(580).json({ message: msgerror500 });
+  }
+};
+
+const exclude = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const product = await productsService.exclude(id);
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+    return res.status(204).end();
+  } catch (e) {
+    console.log(e);
+    return res.status(580).json({ message: msgerror500 });
   }
 };
 
@@ -52,4 +65,5 @@ module.exports = {
   getById,
   add,
   update,
+  exclude,
 };

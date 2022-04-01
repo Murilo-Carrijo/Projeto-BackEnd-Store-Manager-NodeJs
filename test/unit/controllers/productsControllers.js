@@ -39,17 +39,16 @@ describe('Testando a camada Controllers dos products', () => {
     after(() => {
       productsService.getAll.restore();
     });
+    it('Testando o retorno do status e json esperado', async () => {
+      await productsControllets.getAll(request, response);
+
+      expect(response.status.calledWith(200)).to.be.true;
+      expect(response.json.calledWith(fakeBd)).to.be.true;
+    });
   });
 
-  it('Testando o retorno do status e json esperado', async () => {
-    await productsControllets.getAll(request, response);
-
-    expect(response.status.calledWith(200)).to.be.false;
-    expect(response.json.calledWith(fakeBd)).to.be.false;
-  });
 
   describe('Teste da função getById', () => {
-    // TypeError: Cannot destructure property 'id' of '((cov_r4abnpfd5(...).s[8]++) , req.params)' as it is undefined.
     before(() => {
       sinon.stub(productsService, 'getById').resolves(fakeBd);
     });
@@ -57,12 +56,13 @@ describe('Testando a camada Controllers dos products', () => {
     after(() => {
       productsService.getById.restore();
     });
+
+    it('Testando o retorno do status e json esperado', async () => {
+      await productsControllets.getById(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
   });
 
-  it('Testando o retorno do status e json esperado', async () => {
-    await productsControllets.getById(request, response);
-
-    expect(response.status.calledWith(200)).to.be.equal(false);
-  });
 
 });

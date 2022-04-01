@@ -24,10 +24,17 @@ const add = async (newProductObj) => {
 
 const update = async (id, { name, quantity }) => {
   const checkProductId = await productsModels.getById(id);
-  console.log('Service check: ', id);
   if (checkProductId.length < 1) return null;
   const updateProduct = await productsModels.update(id, name, quantity);
   return updateProduct;
+};
+
+const exclude = async (id) => {
+  const checkProductId = await productsModels.getById(id);
+  console.log(checkProductId);
+  if (checkProductId.length === 0) return null;
+  const excludeProduct = await productsModels.exclude(id);
+  return excludeProduct;
 };
 
 module.exports = {
@@ -35,4 +42,5 @@ module.exports = {
   getById,
   add,
   update,
+  exclude,
 };
