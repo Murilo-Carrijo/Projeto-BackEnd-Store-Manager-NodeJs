@@ -22,8 +22,17 @@ const add = async (newProductObj) => {
   return newProduct;
 };
 
+const update = async (id, { name, quantity }) => {
+  const checkProductId = await productsModels.getById(id);
+  console.log('Service check: ', id);
+  if (checkProductId.length < 1) return null;
+  const updateProduct = await productsModels.update(id, name, quantity);
+  return updateProduct;
+};
+
 module.exports = {
   getAll,
   getById,
   add,
+  update,
 };

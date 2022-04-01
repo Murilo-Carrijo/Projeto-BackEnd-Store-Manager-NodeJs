@@ -8,6 +8,7 @@ const router = express.Router();
 router
   .get('/', productsControllers.getAll)
   .get('/:id', productsControllers.getById)
-  .post('/', validation.validationName, validation.validationQuantity, productsControllers.add);
+  .post('/', validation.validationName, validation.validationQuantity, productsControllers.add)
+  .put('/:id', productsControllers.update);
 
 module.exports = router;
