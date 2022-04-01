@@ -9,10 +9,10 @@ const validationName = (req, res, next) => {
 
 const validationQuantity = (req, res, next) => {
   const { quantity } = req.body;
-  if (!quantity || quantity.length === 0) {
+  if (quantity === undefined) {
     return res.status(400).json({ message: '"quantity" is required' });
   }
-  if (quantity < 0) {
+  if (quantity < 1) {
     return res.status(422).json({ message: '"quantity" must be greater than or equal to 1' });
   }
 

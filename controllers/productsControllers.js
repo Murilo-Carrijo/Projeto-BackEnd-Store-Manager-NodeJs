@@ -22,7 +22,20 @@ const getById = async (req, res) => {
   }
 };
 
+const add = async (req, res) => {
+  const newProductObj = req.body;
+  try {
+    const product = await productsService.add(newProductObj);
+    if (!product) return res.status(409).json({ message: 'Product already exists' });
+    return res.status(201).json(product);
+  } catch (e) {
+    console.log(e);
+    return res.status(580).json({ message: 'Erro no servidor' });
+  }
+};
+
 module.exports = {
   getAll,
   getById,
+  add,
 };

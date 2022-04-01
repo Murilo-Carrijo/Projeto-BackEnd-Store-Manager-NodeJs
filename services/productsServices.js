@@ -14,7 +14,16 @@ const getById = async (id) => {
 
   return products;
 };
+
+const add = async (newProductObj) => {
+  const checkName = await productsModels.getByName(newProductObj.name);
+  if (checkName.length > 0) return null;
+  const newProduct = await productsModels.add(newProductObj.name, newProductObj.quantity);
+  return newProduct;
+};
+
 module.exports = {
   getAll,
   getById,
+  add,
 };
