@@ -21,7 +21,20 @@ const getById = async (req, res) => {
     return res.status(500).json({ message: 'Erro no servidor' });
   }
 };
+
+const add = async (req, res) => {
+  const sale = req.body;
+  try {
+    const newSale = await salesServices.add(sale);
+    res.status(201).json(newSale);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: 'Erro no servidor' });
+  }
+};
+
 module.exports = {
   getAll,
   getById,
+  add,
 };

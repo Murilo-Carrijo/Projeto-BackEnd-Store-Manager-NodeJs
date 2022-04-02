@@ -13,7 +13,22 @@ const getById = async (id) => {
   return sale;
 };
 
+const add = async (sale) => {
+  const addS = await salesModels.addS();
+  const result = {
+    id: addS.insertId,
+    itemsSold: sale,
+  };
+
+  sale.forEach(async ({ productId, quantity }) => {
+    await salesModels.addSP(addS.insertId, productId, quantity);
+  });
+
+  return result;
+};
+
 module.exports = {
   getAll,
   getById,
+  add,
 };
