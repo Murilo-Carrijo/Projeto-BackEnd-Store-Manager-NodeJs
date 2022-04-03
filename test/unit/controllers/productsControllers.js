@@ -2,21 +2,19 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 
 const productsService = require('../../../services/productsServices');
-const productsControllets = require('../../../controllers/productsControllers');
+const productsControllers = require('../../../controllers/productsControllers');
 
 describe('Testando a camada Controllers dos products', () => {
   const fakeBd = [
     {
-      "saleId": 1,
-      "date": "2021-09-09T04:54:29.000Z",
-      "productId": 1,
-      "quantity": 2
+      "id": 1,
+      "name": "produto A",
+      "quantity": 10
     },
     {
-      "saleId": 1,
-      "date": "2021-09-09T04:54:54.000Z",
-      "productId": 2,
-      "quantity": 2
+      "id": 2,
+      "name": "produto B",
+      "quantity": 20
     }
   ];
 
@@ -25,6 +23,7 @@ describe('Testando a camada Controllers dos products', () => {
 
   before(() => {
     request.params = 1;
+    request.body =  { "name": "produto", "quantity": 10 };
     response.status = sinon.stub()
       .returns(response);
     response.json = sinon.stub()
@@ -39,8 +38,8 @@ describe('Testando a camada Controllers dos products', () => {
     after(() => {
       productsService.getAll.restore();
     });
-    it('Testando o retorno do status e json esperado', async () => {
-      await productsControllets.getAll(request, response);
+    it('Testando o retorno do status e json esperado - função getAll', async () => {
+      await productsControllers.getAll(request, response);
 
       expect(response.status.calledWith(200)).to.be.true;
       expect(response.json.calledWith(fakeBd)).to.be.true;
@@ -57,10 +56,66 @@ describe('Testando a camada Controllers dos products', () => {
       productsService.getById.restore();
     });
 
-    it('Testando o retorno do status e json esperado', async () => {
-      await productsControllets.getById(request, response);
+    it('Testando o retorno do status e json esperado - função getById', async () => {
+      await productsControllers.getById(request, response);
 
-      expect(response.status.calledWith(200)).to.be.equal(true);
+      expect(response.status.calledWith(200)).to.be.true;
+      expect(response.json.calledWith(fakeBd)).to.be.true;
+    });
+  });
+
+
+  describe('Teste da função add', () => {
+    before(() => {
+      sinon.stub(productsService, 'add').resolves(
+        { id: 4, name: 'produto', quantity: 10 },
+      );
+    });
+
+    after(() => {
+      productsService.add.restore();
+    });
+
+    it('Testando o retorno do status e json esperado - função add', async () => {
+      await productsControllers.add(request, response);
+
+      expect(response.status.calledWith(201)).to.be.true;
+      expect(response.json.calledWith({ id: 4, name: 'produto', quantity: 10 })).to.be.true;
+    });
+  });
+
+  describe('Teste da função update', () => {
+    before(() => {
+      sinon.stub(productsService, 'update').resolves(
+        { "id": 1, "name": "produto", "quantity": 15 },
+      );
+    });
+
+    after(() => {
+      productsService.update.restore();
+    });
+
+    it('Testando o retorno do status e json esperado - função update', async () => {
+      await productsControllers.update(request, response);
+
+      expect(response.status.calledWith(200)).to.be.true;
+      expect(response.json.calledWith({ "id": 1, "name": "produto", "quantity": 15 })).to.be.true;
+    });
+  });
+
+  describe('Teste da função exclude', () => {
+    before(() => {
+      sinon.stub(productsService, 'exclude').resolves(fakeBd);
+    });
+
+    after(() => {
+      productsService.exclude.restore();
+    });
+
+    it('Testando o retorno do status e json esperado - função exclude', async () => {
+      await productsControllers.exclude(request, response);
+
+      expect(response.status.calledWith(204)).to.be.true;
     });
   });
 

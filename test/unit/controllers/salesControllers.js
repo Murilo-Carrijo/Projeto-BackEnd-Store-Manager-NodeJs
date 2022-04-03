@@ -3,6 +3,7 @@ const sinon = require('sinon');
 
 const salesModules = require('../../../services/salesServices');
 const salesControllers = require('../../../controllers/salesControllers');
+const { after } = require('mocha');
 
 describe('Testando a camada Controllers dos sales', () => {
   const fakeBd = [
@@ -31,6 +32,13 @@ describe('Testando a camada Controllers dos sales', () => {
 
   before(() => {
     request.params = 1;
+    request.body = [
+      {
+        "productId": 1,
+        "quantity": 3
+      }
+    ];
+
     response.status = sinon.stub()
       .returns(response);
     response.json = sinon.stub()
@@ -53,7 +61,6 @@ describe('Testando a camada Controllers dos sales', () => {
     });
   });
 
-
   describe('Teste da função getById', () => {
     before(() => {
       sinon.stub(salesModules, 'getById').resolves(fakeBd);
@@ -61,13 +68,36 @@ describe('Testando a camada Controllers dos sales', () => {
 
     after(() => {
       salesModules.getById.restore();
+    });
+    it('Testando o retorno do status e json esperado', async () => {
+      await salesControllers.getById(request, response);
 
-        it('Testando o retorno do status e json esperado', async () => {
-          await salesControllers.getById(request, response);
+      expect(response.status.calledWith(200)).to.be.true;
+    });
+  });
 
-          expect(response.status.calledWith(200)).to.be.true;
-          expect(response.json.calledWith(fakeBd)).to.be.true;
-        });
+  describe('Teste da função add', () => {
+    before(() => {
+      sinon.stub(salesModules, 'add').resolves(
+        {
+          "id": 1,
+          "itemsSold": [
+            {
+              "productId": 1,
+              "quantity": 3
+            }
+          ]
+        },
+      );
+    });
+
+    after(() => {
+      salesModules.add.restore();
+    });
+    it('Testando o retorno do status e json esperado', async () => {
+      await salesControllers.add(request, response);
+
+      expect(response.status.calledWith(201)).to.be.true;
     });
   });
 
