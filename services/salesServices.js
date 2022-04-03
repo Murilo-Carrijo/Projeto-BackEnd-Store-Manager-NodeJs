@@ -27,8 +27,22 @@ const add = async (sale) => {
   return result;
 };
 
+const update = async (saleId, sale) => {
+  const result = {
+    saleId,
+    itemUpdated: sale,
+  };
+
+  sale.forEach(async ({ productId, quantity }) => {
+    await salesModels.update(saleId, productId, quantity);
+  });
+
+  return result;
+};
+
 module.exports = {
   getAll,
   getById,
   add,
+  update,
 };

@@ -33,8 +33,21 @@ const add = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+  const sale = req.body;
+  const { id } = req.params;
+  try {
+    const newSale = await salesServices.update(id, sale);
+    res.status(200).json(newSale);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: 'Erro no servidor' });
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   add,
+  update,
 };
