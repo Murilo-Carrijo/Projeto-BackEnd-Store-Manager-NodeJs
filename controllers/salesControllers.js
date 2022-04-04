@@ -26,7 +26,7 @@ const add = async (req, res) => {
   const sale = req.body;
   try {
     const newSale = await salesServices.add(sale);
-    res.status(201).json(newSale);
+    return res.status(201).json(newSale);
   } catch (e) {
     console.log(e);
     return res.status(500).json({ message: 'Erro no servidor' });
@@ -38,7 +38,8 @@ const update = async (req, res) => {
   const { id } = req.params;
   try {
     const newSale = await salesServices.update(id, sale);
-    res.status(200).json(newSale);
+    if (!newSale) return res.status(404).json({ message: 'Sale not found' });
+    return res.status(200).json(newSale);
   } catch (e) {
     console.log(e);
     return res.status(500).json({ message: 'Erro no servidor' });

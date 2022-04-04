@@ -28,6 +28,8 @@ const add = async (sale) => {
 };
 
 const update = async (saleId, sale) => {
+  const checkSales = await salesModels.getById(saleId);
+  if (checkSales.length === 0) return null;
   const result = {
     saleId,
     itemUpdated: sale,
