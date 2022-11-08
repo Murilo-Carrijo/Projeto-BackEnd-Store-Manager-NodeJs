@@ -1,4 +1,4 @@
-# All For One!
+# Store Manager!
 
 #### Linguagens utilizadas
 
