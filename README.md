@@ -47,6 +47,7 @@ As habilidade utilizadas nesse projeto foram:
   * Instale as dependências:
     * `npm install`
 
+3. Teste os CRUDs utilizando ferramentas como o POSTMAN. 
 
 ---
 
