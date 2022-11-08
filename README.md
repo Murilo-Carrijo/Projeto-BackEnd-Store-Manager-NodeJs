@@ -5,6 +5,7 @@
   * NodeJS
   * Express
   * MySQL
+  * Testes (sinon e chai)
 
 ---
 
